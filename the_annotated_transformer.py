@@ -795,21 +795,14 @@ def tokenize(text, tokenizer):
 
 def yield_tokens(data_iter, tokenizer, index):
     for from_to_tuple in data_iter:
-        yield tokenizer(from_to_tuple[index])
+        print("from tuple:", from_to_tuple)
+        if len(from_to_tuple) > 1:
+            yield tokenizer(from_to_tuple[index])
 
 
 
 from datasets import load_dataset_builder
 from datasets import load_dataset
-
-# config = datasets.wmt.WmtConfig(
-    # language_pair=("en", "de"),
-# )
-# train, val, test = datasets.builder("wmt16", config=config)
-# config = datasets.wmt.WmtConfig(
-    # language_pair=("de", "en"),
-# )
-# builder2 = load_dataset_builder("wmt16", 'en-de')
 
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):
@@ -819,18 +812,46 @@ def build_vocabulary(spacy_de, spacy_en):
         return tokenize(text, spacy_en)
 
     print("Building German Vocabulary ...")
-    # train, val, test = datasets.Multi30k(language_pair=("de", "en"))
-    train, val, test = load_dataset("wmt16", "de-en")
+    dataset = load_dataset("wmt16", "de-en")
+    train, val, test = dataset['train'], dataset['validation'], dataset['test']
+    tokens_de = []
+    print(type(train))
+    i = 0
+    max_i = 9999999999#len(train)
+    for el in train:
+        i += 1
+        if i == max_i:
+            break
+        print(f"token de {i}/{max_i}")
+        tokens_de.append(el['translation']['de'])
+    # for el in val:
+        # tokens_de.append(el['translation']['de'])
+    # for el in test:
+        # tokens_de.append(el['translation']['de'])
+
+    tokens_en = []
+    i= 0 
+    for el in train:
+        i += 1
+        print(f"token en {i}/{max_i}")
+        tokens_en.append(el['translation']['en'])
+        if i == max_i:
+            break
+    # for el in val:
+        # tokens_en.append(el['translation']['en'])
+    # for el in test:
+        # tokens_en.append(el['translation']['en'])
+
+
     vocab_src = build_vocab_from_iterator(
-        yield_tokens(train + val + test, tokenize_de, index=0),
+        yield_tokens(tokens_de, tokenize_de, index=0),
         min_freq=2,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
     print("Building English Vocabulary ...")
-    # train, val, test = datasets.Multi30k(language_pair=("de", "en"))
     vocab_tgt = build_vocab_from_iterator(
-        yield_tokens(train + val + test, tokenize_en, index=1),
+        yield_tokens(tokens_en, tokenize_en, index=1),
         min_freq=2,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )

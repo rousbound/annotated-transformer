@@ -795,6 +795,7 @@ def tokenize(text, tokenizer):
 
 def yield_tokens(data_iter, tokenizer, language):
     for it_dict in data_iter:
+        print(it_dict)
         yield it_dict['translation'][language]
 
 

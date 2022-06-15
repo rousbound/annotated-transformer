@@ -802,7 +802,6 @@ def yield_tokens(data_iter, tokenizer, index):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-print(train, val, test)
 # config = datasets.wmt.WmtConfig(
     # language_pair=("en", "de"),
 # )

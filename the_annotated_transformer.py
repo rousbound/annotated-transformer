@@ -802,7 +802,6 @@ def yield_tokens(data_iter, tokenizer, index):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en")
 print(train, val, test)
 # config = datasets.wmt.WmtConfig(
     # language_pair=("en", "de"),
@@ -822,6 +821,7 @@ def build_vocabulary(spacy_de, spacy_en):
 
     print("Building German Vocabulary ...")
     # train, val, test = datasets.Multi30k(language_pair=("de", "en"))
+    train, val, test = load_dataset("wmt16", "de-en")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(train + val + test, tokenize_de, index=0),
         min_freq=2,
@@ -830,7 +830,6 @@ def build_vocabulary(spacy_de, spacy_en):
 
     print("Building English Vocabulary ...")
     # train, val, test = datasets.Multi30k(language_pair=("de", "en"))
-    train, val, test = train2, val2, test2
     vocab_tgt = build_vocab_from_iterator(
         yield_tokens(train + val + test, tokenize_en, index=1),
         min_freq=2,

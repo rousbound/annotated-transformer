@@ -369,7 +369,7 @@ show_example(example_positional)
 
 
 def make_model(
-    src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1
+    src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1 # PARAMETERS
 ):
     "Helper: Construct a model from hyperparameters."
     c = copy.deepcopy
@@ -803,8 +803,8 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:20%]","validation[:20%]","test[:20%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:5%]+validation[:5%]+test[:5%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:1%]+validation[:1%]+test[:1%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):

@@ -802,8 +802,8 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-dataset = load_dataset("wmt16", "de-en")
-train, val, test = dataset['train'], dataset['validation'], dataset['test']
+train, val, test = load_dataset("wmt16", "de-en",split=["train[:10%]","val[:10%]","test[:10%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=["train[:10%]+val[:10%]+test[:10%]"])
 
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):
@@ -932,6 +932,8 @@ def create_dataloaders(
         return tokenize(text, spacy_en)
 
     def collate_fn(batch):
+        print("BATCH:", batch)
+        print("TYPE:", type(batch))
         return collate_batch(
             batch,
             tokenize_de,

@@ -10,7 +10,7 @@ from torch.optim.lr_scheduler import LambdaLR
 import pandas as pd
 import altair as alt
 from torchtext.data.functional import to_map_style_dataset
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torchtext.vocab import build_vocab_from_iterator
 # import torchtext.datasets as datasets
 import spacy
@@ -804,7 +804,7 @@ from datasets import load_dataset_builder
 from datasets import load_dataset
 
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:20%]","validation[:20%]","test[:20%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:20%]+validation[:20%]+test[:20%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:5%]+validation[:5%]+test[:5%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):
@@ -955,13 +955,24 @@ def create_dataloaders(
         # language_pair=("de", "en")
     # )
 
+    class customdataset(Dataset):
+        def __init__(self,data):
+            self.data = data
+
+        def __len__(self):
+            return len(self.data)
+            
+        def __getitem__(self, idx):
+            return self.data[0]['translation']['en'], self.data[0]['translation']['de']
+
+
     train_iter_map = to_map_style_dataset(
-        train_iter
+        customdataset(train_iter)
     )  # DistributedSampler needs a dataset len()
     train_sampler = (
         DistributedSampler(train_iter_map) if is_distributed else None
     )
-    valid_iter_map = to_map_style_dataset(valid_iter)
+    valid_iter_map = to_map_style_dataset(customdataset(valid_iter))
     valid_sampler = (
         DistributedSampler(valid_iter_map) if is_distributed else None
     )

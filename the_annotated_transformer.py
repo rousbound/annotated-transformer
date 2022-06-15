@@ -802,8 +802,8 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en",split=["train[:10%]","val[:10%]","test[:10%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=["train[:10%]+val[:10%]+test[:10%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=["train[:10%]","validation[:10%]","test[:10%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=["train[:10%]+validation[:10%]+test[:10%]"])
 
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):

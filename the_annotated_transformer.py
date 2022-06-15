@@ -794,17 +794,18 @@ def tokenize(text, tokenizer):
 
 
 def yield_tokens(data_iter, tokenizer, language):
-    for it_dict in data_iter:
-        print(it_dict)
-        yield it_dict['translation'][language]
+    # print("Data iter:", data_iter)
+    for el in data_iter[0]['translation']:
+        yield tokenizer(el[language])
 
 
 
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en",split=["train[:10%]","validation[:10%]","test[:10%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=["train[:10%]+validation[:10%]+test[:10%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:20%]","validation[:20%]","test[:20%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:20%]+validation[:20%]+test[:20%]"])
+# all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):

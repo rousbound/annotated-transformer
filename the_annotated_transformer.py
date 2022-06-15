@@ -12,7 +12,7 @@ import altair as alt
 from torchtext.data.functional import to_map_style_dataset
 from torch.utils.data import DataLoader
 from torchtext.vocab import build_vocab_from_iterator
-import torchtext.datasets as datasets
+# import torchtext.datasets as datasets
 import spacy
 import GPUtil
 import warnings
@@ -802,6 +802,9 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
+dataset = load_dataset("wmt16", "de-en")
+train, val, test = dataset['train'], dataset['validation'], dataset['test']
+
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):
         return tokenize(text, spacy_de)
@@ -809,10 +812,8 @@ def build_vocabulary(spacy_de, spacy_en):
     def tokenize_en(text):
         return tokenize(text, spacy_en)
 
-    print("Building German Vocabulary ...")
-    dataset = load_dataset("wmt16", "de-en")
-    train, val, test = dataset['train'], dataset['validation'], dataset['test']
 
+    print("Building German Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(train, tokenize_de, language='de'),
         min_freq=2,
@@ -942,9 +943,13 @@ def create_dataloaders(
             pad_id=vocab_src.get_stoi()["<blank>"],
         )
 
-    train_iter, valid_iter, test_iter = datasets.Multi30k(
-        language_pair=("de", "en")
-    )
+    # train_iter, valid_iter, test_iter = 
+    train_iter = train
+    valid_iter = valid
+    test_iter = test
+    # train_iter, valid_iter, test_iter = datasets.Multi30k(
+        # language_pair=("de", "en")
+    # )
 
     train_iter_map = to_map_style_dataset(
         train_iter

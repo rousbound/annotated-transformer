@@ -803,8 +803,8 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:1%]+validation[:1%]+test[:1%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:10%]+validation[:10%]+test[:10%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):
@@ -967,18 +967,12 @@ def create_dataloaders(
             return self.data[0]['translation'][idx]['en'], self.data[0]['translation'][idx]['de']
 
 
-    train_iter_map = to_map_style_dataset(
-        train_iter
-    )  # DistributedSampler needs a dataset len()
+    train_iter_map = to_map_style_dataset( train_iter)  
     train_iter_map = customdataset(train_iter_map)
-    train_sampler = (
-        DistributedSampler(train_iter_map) if is_distributed else None
-    )
+    train_sampler = ( DistributedSampler(train_iter_map) if is_distributed else None)
     valid_iter_map = to_map_style_dataset(valid_iter)
     valid_iter_map = customdataset(train_iter_map)
-    valid_sampler = (
-        DistributedSampler(valid_iter_map) if is_distributed else None
-    )
+    valid_sampler = ( DistributedSampler(valid_iter_map) if is_distributed else None)
 
     train_dataloader = DataLoader(
         train_iter_map,

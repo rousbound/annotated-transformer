@@ -1129,10 +1129,10 @@ def train_model(vocab_src, vocab_tgt, spacy_de, spacy_en, config):
 
 
 def load_trained_model():
-    config = {
-        "batch_size": 32,
+    config = { #CONFIG
+        "batch_size": 1, #32
         "distributed": False,
-        "num_epochs": 1,
+        "num_epochs": 1, #8
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,

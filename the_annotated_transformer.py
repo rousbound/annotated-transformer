@@ -967,11 +967,13 @@ def create_dataloaders(
             return self.data[0]['translation'][idx]['en'], self.data[0]['translation'][idx]['de']
 
 
-    train_iter_map = to_map_style_dataset( train_iter)  
-    train_iter_map = customdataset(train_iter_map)
+    # train_iter_map = to_map_style_dataset( train_iter)  
+    # train_iter_map = customdataset(train_iter_map)
+    train_iter_map = to_map_style_dataset(customdataset(train_iter))
     train_sampler = ( DistributedSampler(train_iter_map) if is_distributed else None)
-    valid_iter_map = to_map_style_dataset(valid_iter)
-    valid_iter_map = customdataset(train_iter_map)
+    # valid_iter_map = to_map_style_dataset(valid_iter)
+    # valid_iter_map = customdataset(train_iter_map)
+    valid_iter_map = to_map_style_dataset(customdataset(valid_iter))
     valid_sampler = ( DistributedSampler(valid_iter_map) if is_distributed else None)
 
     train_dataloader = DataLoader(

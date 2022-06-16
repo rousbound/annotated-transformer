@@ -30,9 +30,11 @@ from datasets import load_dataset_builder
 from datasets import load_dataset, concatenate_datasets
 
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
-all_dataset = load_dataset("wmt16", "de-en",f"train[:1%]+validation[:1%]+test[:1%]")
+all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
 
-all_dataset = concatenate_datasets([all_dataset['train'], all_dataset['validation'], all_dataset['test']])
+# all_dataset = concatenate_datasets([all_dataset['train'], all_dataset['validation'], all_dataset['test']])
+# print("Len train:", len(train))
+print("All dataset:", len(all_dataset))
 # ds3 = concatenate_datasets([ds1, ds2])
 
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
@@ -805,14 +807,12 @@ def tokenize(text, tokenizer):
 
 
 def yield_tokens(data_iter, tokenizer, language):
-    # print("Data iter:", data_iter)
     for el in data_iter:
-        # print("EL:", el)
+        # print(el['translation'][language])
         yield tokenizer(el['translation'][language])
 
 
 
-# all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):
     def tokenize_de(text):

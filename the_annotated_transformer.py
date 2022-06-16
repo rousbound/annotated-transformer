@@ -26,6 +26,13 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 warnings.filterwarnings("ignore")
 RUN_EXAMPLES = True
 
+from datasets import load_dataset_builder
+from datasets import load_dataset
+# train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:100%]","validation[:100%]","test[:100%]"])
+# all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:100%]+validation[:100%]+test[:100%]"])
+
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 # %%
 # Some convenience helper functions used throughout the notebook
@@ -800,11 +807,6 @@ def yield_tokens(data_iter, tokenizer, language):
 
 
 
-from datasets import load_dataset_builder
-from datasets import load_dataset
-
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:100%]","validation[:100%]","test[:100%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:100%]+validation[:100%]+test[:100%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):

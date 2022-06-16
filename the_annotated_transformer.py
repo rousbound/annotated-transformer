@@ -1052,6 +1052,7 @@ def train_worker(
     )
     train_state = TrainState()
 
+    print("Initializing training epochs")
     for epoch in range(config["num_epochs"]):
         if is_distributed:
             train_dataloader.sampler.set_epoch(epoch)
@@ -1124,7 +1125,7 @@ def train_model(vocab_src, vocab_tgt, spacy_de, spacy_en, config):
 def load_trained_model():
     config = {
         "batch_size": 32,
-        "distributed": True,
+        "distributed": False,
         "num_epochs": 1,
         "accum_iter": 10,
         "base_lr": 1.0,

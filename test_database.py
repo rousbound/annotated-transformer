@@ -18,5 +18,9 @@ class customdataset(Dataset):
 
 
 train = customdataset(to_map_style_dataset(train))
+train_dataloader = DataLoader(
+    train,
+    batch_size=32,
+)
 for el in train:
     print(el)

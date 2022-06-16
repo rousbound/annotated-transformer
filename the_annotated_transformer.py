@@ -967,12 +967,14 @@ def create_dataloaders(
 
 
     train_iter_map = to_map_style_dataset(
-        customdataset(train_iter)
+        train_iter
     )  # DistributedSampler needs a dataset len()
+    train_iter_map = customdataset(train_iter_map)
     train_sampler = (
         DistributedSampler(train_iter_map) if is_distributed else None
     )
-    valid_iter_map = to_map_style_dataset(customdataset(valid_iter))
+    valid_iter_map = to_map_style_dataset(valid_iter)
+    valid_iter_map = customdataset(train_iter_map)
     valid_sampler = (
         DistributedSampler(valid_iter_map) if is_distributed else None
     )

@@ -21,26 +21,14 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from torch.nn.parallel import DistributedDataParallel as DDP
 
+from datasets import load_dataset_builder
+from datasets import load_dataset, concatenate_datasets
 
 # Set to False to skip notebook execution (e.g. for debugging)
 warnings.filterwarnings("ignore")
 RUN_EXAMPLES = True
 
-from datasets import load_dataset_builder
-from datasets import load_dataset, concatenate_datasets
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
-
-# all_dataset = concatenate_datasets([all_dataset['train'], all_dataset['validation'], all_dataset['test']])
-# print("Len train:", len(train))
-print("All dataset:", len(all_dataset))
-# ds3 = concatenate_datasets([ds1, ds2])
-
-# train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
-# all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
-
-# %%
 # Some convenience helper functions used throughout the notebook
 
 
@@ -250,7 +238,6 @@ def example_mask():
     )
 
 
-show_example(example_mask)
 
 def attention(query, key, value, mask=None, dropout=None):
     "Compute 'Scaled Dot Product Attention'"
@@ -378,7 +365,6 @@ def example_positional():
     )
 
 
-show_example(example_positional)
 
 
 def make_model( # MAKE MODEL
@@ -433,7 +419,6 @@ def run_tests():
         inference_test()
 
 
-show_example(run_tests)
 
 
 class Batch:
@@ -589,7 +574,6 @@ def example_learning_schedule():
     )
 
 
-example_learning_schedule()
 
 
 class LabelSmoothing(nn.Module):
@@ -659,7 +643,6 @@ def example_label_smoothing():
     )
 
 
-show_example(example_label_smoothing)
 
 
 
@@ -691,7 +674,6 @@ def penalization_visualization():
     )
 
 
-show_example(penalization_visualization)
 
 
 def data_gen(V, batch_size, nbatches):
@@ -825,14 +807,14 @@ def build_vocabulary(spacy_de, spacy_en):
     print("Building German Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_de, language='de'),
-        min_freq=2,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
     print("Building English Vocabulary ...")
     vocab_tgt = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_en, language='en'),
-        min_freq=2,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
@@ -854,10 +836,6 @@ def load_vocab(spacy_de, spacy_en):
     return vocab_src, vocab_tgt
 
 
-if is_interactive_notebook():
-    # global variables used later in the script
-    spacy_de, spacy_en = show_example(load_tokenizers)
-    vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
 
 
 def collate_batch(
@@ -1139,7 +1117,7 @@ def load_trained_model():
     config = { #CONFIG
         "batch_size": 32, #32
         "distributed": False,
-        "num_epochs": 8, #8
+        "num_epochs": 1, #8
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,
@@ -1155,13 +1133,6 @@ def load_trained_model():
     return model
 
 
-if is_interactive_notebook():
-    model = load_trained_model()
-
-
-if False:
-    model.src_embed[0].lut.weight = model.tgt_embeddings[0].lut.weight
-    model.generator.lut.weight = model.tgt_embed[0].lut.weight
 
 
 
@@ -1243,7 +1214,6 @@ def run_model_example(n_examples=5):
     return model, example_data
 
 
-# execute_example(run_model_example)
 
 
 def mtx2df(m, max_row, max_col, row_tokens, col_tokens):
@@ -1358,7 +1328,6 @@ def viz_encoder_self():
     )
 
 
-show_example(viz_encoder_self)
 
 
 # %% [markdown]
@@ -1390,7 +1359,6 @@ def viz_decoder_self():
     )
 
 
-show_example(viz_decoder_self)
 
 
 # %% [markdown]
@@ -1421,6 +1389,33 @@ def viz_decoder_src():
         & layer_viz[5]
     )
 
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
 
-show_example(viz_decoder_src)
+print("All dataset:", len(all_dataset))
+
+if is_interactive_notebook():
+    # global variables used later in the script
+    spacy_de, spacy_en = show_example(load_tokenizers)
+    vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
+
+if is_interactive_notebook():
+    model = load_trained_model()
+
+
+if False:
+    model.src_embed[0].lut.weight = model.tgt_embeddings[0].lut.weight
+    model.generator.lut.weight = model.tgt_embed[0].lut.weight
+
+execute_example(run_model_example)
+
+# show_example(example_mask)
+# show_example(example_positional)
+# show_example(run_tests)
+# example_learning_schedule()
+# show_example(example_label_smoothing)
+# show_example(penalization_visualization)
+# show_example(viz_encoder_self)
+# show_example(viz_decoder_self)
+# show_example(viz_decoder_src)
 

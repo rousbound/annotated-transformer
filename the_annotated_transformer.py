@@ -29,7 +29,7 @@ RUN_EXAMPLES = True
 from datasets import load_dataset_builder
 from datasets import load_dataset
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:1%]+validation[:1%]+test[:1%]"])
+all_dataset = load_dataset("wmt16", "de-en",f"train[:1%]+validation[:1%]+test[:1%]")
 
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
@@ -960,36 +960,33 @@ def create_dataloaders(
     class customdataset(Dataset):
         def __init__(self,data):
             self.data = data
-
         def __len__(self):
             return len(self.data)
             
         def __getitem__(self, idx):
-            print("IDX:",idx)
-            print(self.data[0]['translation'])
-            return self.data[0]['translation'][idx]['en'], self.data[0]['translation'][idx]['de']
+            return self.data[idx]['translation']['en'], self.data[idx]['translation']['de']
 
 
     # train_iter_map = to_map_style_dataset(train_iter)  
     # train_iter_map = customdataset(train_iter_map)
-    train_iter_map = customdataset(train_iter)
+    train_dataset = customdataset(train_iter)
     # train_iter_map = to_map_style_dataset(customdataset(train_iter))
     train_sampler = ( DistributedSampler(train_iter_map) if is_distributed else None)
     # valid_iter_map = to_map_style_dataset(valid_iter)
     # valid_iter_map = customdataset(valid_iter_map)
-    valid_iter_map = customdataset(valid_iter)
+    valid_dataset = customdataset(valid_iter)
     # valid_iter_map = to_map_style_dataset(customdataset(valid_iter))
     valid_sampler = ( DistributedSampler(valid_iter_map) if is_distributed else None)
 
     train_dataloader = DataLoader(
-        train_iter_map,
+        train_dataset,
         batch_size=batch_size,
         shuffle=(train_sampler is None),
         sampler=train_sampler,
         collate_fn=collate_fn,
     )
     valid_dataloader = DataLoader(
-        valid_iter_map,
+        valid_dataset,
         batch_size=batch_size,
         shuffle=(valid_sampler is None),
         sampler=valid_sampler,

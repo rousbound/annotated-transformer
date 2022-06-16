@@ -963,6 +963,7 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
+            print("IDX:",idx)
             return self.data[0]['translation'][idx]['en'], self.data[0]['translation'][idx]['de']
 
 

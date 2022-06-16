@@ -15,8 +15,11 @@ class customdataset(Dataset):
     def __getitem__(self, idx):
         return self.data[idx]['translation']['en'], self.data[idx]['translation']['de']
 
-for el in customdataset(train):
-    print(el)
+# for el in customdataset(train):
+    # print(el)
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+
+print(train)
 # for el in train:
     # print(el['translation'])
 

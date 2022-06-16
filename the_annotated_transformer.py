@@ -28,11 +28,11 @@ RUN_EXAMPLES = True
 
 from datasets import load_dataset_builder
 from datasets import load_dataset
-# train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:100%]","validation[:100%]","test[:100%]"])
-# all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:100%]+validation[:100%]+test[:100%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:1%]+validation[:1%]+test[:1%]"])
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
+# train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
+# all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 # %%
 # Some convenience helper functions used throughout the notebook
@@ -1012,6 +1012,7 @@ def train_worker(
     config,
     is_distributed=False,
 ):
+    print("Initiate training for real")
     print(f"Train worker process using GPU: {gpu} for training", flush=True)
     torch.cuda.set_device(gpu)
 

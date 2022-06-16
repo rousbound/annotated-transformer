@@ -803,8 +803,8 @@ def yield_tokens(data_iter, tokenizer, language):
 from datasets import load_dataset_builder
 from datasets import load_dataset
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:10%]+validation[:10%]+test[:10%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:100%]","validation[:100%]","test[:100%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=[f"train[:100%]+validation[:100%]+test[:100%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
 
 def build_vocabulary(spacy_de, spacy_en):
@@ -1132,9 +1132,9 @@ def train_model(vocab_src, vocab_tgt, spacy_de, spacy_en, config):
 
 def load_trained_model():
     config = { #CONFIG
-        "batch_size": 1, #32
+        "batch_size": 32, #32
         "distributed": False,
-        "num_epochs": 1, #8
+        "num_epochs": 8, #8
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,

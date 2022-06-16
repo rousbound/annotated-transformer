@@ -27,9 +27,13 @@ warnings.filterwarnings("ignore")
 RUN_EXAMPLES = True
 
 from datasets import load_dataset_builder
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
+
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
 all_dataset = load_dataset("wmt16", "de-en",f"train[:1%]+validation[:1%]+test[:1%]")
+
+all_dataset = concatenate_datasets([all_dataset['train'], all_dataset['validation'], all_dataset['test']])
+# ds3 = concatenate_datasets([ds1, ds2])
 
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train","validation","test"])
 # all_dataset = load_dataset("wmt16", "de-en",split=[f"train+validation+test"])
@@ -784,13 +788,13 @@ def load_tokenizers():
     try:
         spacy_de = spacy.load("de_core_news_sm")
     except IOError:
-        os.system("python -m spacy download de_core_news_sm")
+        os.system("python3 -m spacy download de_core_news_sm")
         spacy_de = spacy.load("de_core_news_sm")
 
     try:
         spacy_en = spacy.load("en_core_web_sm")
     except IOError:
-        os.system("python -m spacy download en_core_web_sm")
+        os.system("python3 -m spacy download en_core_web_sm")
         spacy_en = spacy.load("en_core_web_sm")
 
     return spacy_de, spacy_en
@@ -802,8 +806,9 @@ def tokenize(text, tokenizer):
 
 def yield_tokens(data_iter, tokenizer, language):
     # print("Data iter:", data_iter)
-    for el in data_iter[0]['translation']:
-        yield tokenizer(el[language])
+    for el in data_iter:
+        # print("EL:", el)
+        yield tokenizer(el['translation'][language])
 
 
 

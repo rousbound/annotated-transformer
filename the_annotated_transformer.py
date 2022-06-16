@@ -941,8 +941,8 @@ def create_dataloaders(
         return tokenize(text, spacy_en)
 
     def collate_fn(batch):
-        print("BATCH:", batch)
-        print("TYPE:", type(batch))
+        # print("BATCH:", batch)
+        # print("TYPE:", type(batch))
         return collate_batch(
             batch,
             tokenize_de,

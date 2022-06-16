@@ -963,7 +963,7 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
-            return self.data[0]['translation']['en'], self.data[0]['translation']['de']
+            return self.data[0]['translation'][idx]['en'], self.data[0]['translation'][idx]['de']
 
 
     train_iter_map = to_map_style_dataset(

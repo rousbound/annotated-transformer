@@ -1018,6 +1018,7 @@ def train_worker(
     module = model
     is_main_process = True
     if is_distributed:
+        print("IS DISTRIBUTED")
         dist.init_process_group(
             "nccl", init_method="env://", rank=gpu, world_size=ngpus_per_node
         )
@@ -1025,11 +1026,13 @@ def train_worker(
         module = model.module
         is_main_process = gpu == 0
 
+    print("Creating criterion:")
     criterion = LabelSmoothing(
         size=len(vocab_tgt), padding_idx=pad_idx, smoothing=0.1
     )
     criterion.cuda(gpu)
 
+    print("Creating dataloaders:")
     train_dataloader, valid_dataloader = create_dataloaders(
         gpu,
         vocab_src,
@@ -1041,15 +1044,18 @@ def train_worker(
         is_distributed=is_distributed,
     )
 
+    print("Creating optimizer")
     optimizer = torch.optim.Adam(
         model.parameters(), lr=config["base_lr"], betas=(0.9, 0.98), eps=1e-9
     )
+    print("Creating LR Scheduler")
     lr_scheduler = LambdaLR(
         optimizer=optimizer,
         lr_lambda=lambda step: rate(
             step, d_model, factor=1, warmup=config["warmup"]
         ),
     )
+    print("Creating train state")
     train_state = TrainState()
 
     print("Initializing training epochs")

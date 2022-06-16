@@ -962,7 +962,7 @@ def create_dataloaders(
             self.data = data
 
         def __len__(self):
-            return len(self.data[0])
+            return len(self.data)
             
         def __getitem__(self, idx):
             # print("IDX:",idx)

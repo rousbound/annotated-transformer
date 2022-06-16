@@ -368,8 +368,8 @@ def example_positional():
 show_example(example_positional)
 
 
-def make_model(
-    src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1 # PARAMETERS
+def make_model( # MAKE MODEL
+    src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1 # PARAMS
 ):
     "Helper: Construct a model from hyperparameters."
     c = copy.deepcopy
@@ -1124,8 +1124,8 @@ def train_model(vocab_src, vocab_tgt, spacy_de, spacy_en, config):
 def load_trained_model():
     config = {
         "batch_size": 32,
-        "distributed": False,
-        "num_epochs": 8,
+        "distributed": True,
+        "num_epochs": 1,
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,

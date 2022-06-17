@@ -30,7 +30,6 @@ RUN_EXAMPLES = True
 
 
 # Some convenience helper functions used throughout the notebook
-global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 
 def is_interactive_notebook():
@@ -798,6 +797,8 @@ def yield_tokens(data_iter, tokenizer, language):
 
 
 def build_vocabulary(spacy_de, spacy_en):
+    global vocab_src, vocab_tgt, spacy_de, spacy_en
+
     def tokenize_de(text):
         return tokenize(text, spacy_de)
 
@@ -1163,10 +1164,10 @@ def check_outputs(
         greedy_decode(model, rb.src, rb.src_mask, 64, 0)[0]
 
         src_tokens = [
-            vocab_src.get_itos()[x] for x in rb.src[0] if x != pad_idx
+            vocab_src.get_itos()[x] for x in rb.src if x != pad_idx
         ]
         tgt_tokens = [
-            vocab_tgt.get_itos()[x] for x in rb.tgt[0] if x != pad_idx
+            vocab_tgt.get_itos()[x] for x in rb.tgt if x != pad_idx
         ]
 
         print(
@@ -1404,18 +1405,14 @@ all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+t
 
 print("All dataset:", len(all_dataset))
 
-if is_interactive_notebook():
-    # global variables used later in the script
-    spacy_de, spacy_en = show_example(load_tokenizers)
-    vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
+# if is_interactive_notebook():
+    # # global variables used later in the script
+    # spacy_de, spacy_en = show_example(load_tokenizers)
+    # vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
 
 if is_interactive_notebook():
     model = load_trained_model()
 
-
-if False:
-    model.src_embed[0].lut.weight = model.tgt_embeddings[0].lut.weight
-    model.generator.lut.weight = model.tgt_embed[0].lut.weight
 
 execute_example(run_model_example)
 

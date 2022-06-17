@@ -807,14 +807,14 @@ def build_vocabulary(spacy_de, spacy_en):
     print("Building German Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_de, language='de'),
-        min_freq=2,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
     print("Building English Vocabulary ...")
     vocab_tgt = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_en, language='en'),
-        min_freq=2,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
@@ -1389,10 +1389,10 @@ def viz_decoder_src():
         & layer_viz[5]
     )
 
-# train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
-# all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
-all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
+# train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
+# all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")
 
 print("All dataset:", len(all_dataset))
 

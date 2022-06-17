@@ -798,6 +798,7 @@ def yield_tokens(data_iter, tokenizer, language):
 
 def build_vocabulary(spacy_de, spacy_en):
 
+
     def tokenize_de(text):
         return tokenize(text, spacy_de)
 
@@ -1163,10 +1164,10 @@ def check_outputs(
         greedy_decode(model, rb.src, rb.src_mask, 64, 0)[0]
 
         src_tokens = [
-            vocab_src.get_itos()[x] for x in rb.src if x != pad_idx
+            vocab_src.get_itos()[x] for x in rb.src[0] if x != pad_idx
         ]
         tgt_tokens = [
-            vocab_tgt.get_itos()[x] for x in rb.tgt if x != pad_idx
+            vocab_tgt.get_itos()[x] for x in rb.tgt[0] if x != pad_idx
         ]
 
         print(
@@ -1190,6 +1191,7 @@ def check_outputs(
 
 
 def run_model_example(n_examples=5):
+    global vocab_src, vocab_tgt, spacy_de, spacy_en
 
     print("Preparing Data ...")
     _, valid_dataloader = create_dataloaders(
@@ -1392,7 +1394,6 @@ def viz_decoder_src():
         & layer_viz[4]
         & layer_viz[5]
     )
-global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
 print("Len train:", len(train))

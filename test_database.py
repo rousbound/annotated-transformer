@@ -1,4 +1,4 @@
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
 from torch.utils.data import DataLoader, Dataset
 from torchtext.data.functional import to_map_style_dataset
 
@@ -20,9 +20,12 @@ from torchtext.data.functional import to_map_style_dataset
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
 
 # print(train)
-train = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
-print(train)
-print(train.features)
+train, val, test = load_dataset("wmt16", "de-en",split=["train[:1%]","validation[:1%]","test[:1%]"])
+all_ds2 = load_dataset("wmt16", "de-en",split="train[:1%]+validation[:1%]+test[:1%]")
+
+all_ds = concatenate_datasets([train, val, test])
+print(all_ds)
+print(all_ds2)
 # for el in train:
     # print(el['translation'])
 

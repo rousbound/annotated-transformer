@@ -817,6 +817,8 @@ def build_vocabulary(spacy_de, spacy_en):
         min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
+    print("len vocab src:", vocab_src)
+    print("len vocab tgt:", vocab_src)
 
     vocab_src.set_default_index(vocab_src["<unk>"])
     vocab_tgt.set_default_index(vocab_tgt["<unk>"])
@@ -1201,6 +1203,8 @@ def run_model_example(n_examples=5):
     )
 
     print("Loading Trained Model ...")
+    print("Len src vocab:", len(vocab_src))
+    print("Len tgt vocab:", len(vocab_tgt))
 
     model = make_model(len(vocab_src), len(vocab_tgt), N=6)
     model.load_state_dict(

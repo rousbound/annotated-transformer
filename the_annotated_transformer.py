@@ -1164,10 +1164,10 @@ def check_outputs(
         greedy_decode(model, rb.src, rb.src_mask, 64, 0)[0]
 
         src_tokens = [
-            vocab_src.get_itos()[x] for x in rb.src[0] if x != pad_idx
+            vocab_src.get_itos()[x] for x in rb.src if x != pad_idx
         ]
         tgt_tokens = [
-            vocab_tgt.get_itos()[x] for x in rb.tgt[0] if x != pad_idx
+            vocab_tgt.get_itos()[x] for x in rb.tgt if x != pad_idx
         ]
 
         print(

@@ -809,14 +809,14 @@ def build_vocabulary(spacy_de, spacy_en):
     print("Building German Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_de, language='de'),
-        min_freq=0,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
     print("Building English Vocabulary ...")
     vocab_tgt = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_en, language='en'),
-        min_freq=0,
+        min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
     print("len vocab src:", len(vocab_src))
@@ -951,7 +951,7 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
-            return self.data[idx]['translation']['en'], self.data[idx]['translation']['de']
+            return self.data[idx]['translation']['de'], self.data[idx]['translation']['en']
 
 
     # train_iter_map = to_map_style_dataset(train_iter)  
@@ -1402,7 +1402,7 @@ print("Len train:", len(train))
 print("Len val:", len(val))
 print("Len test:", len(test))
 
-all_dataset = load_dataset("wmt16", "de-en",split=f"train[:30%]+validation[:30%]+test[:30%]")
+all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")
 

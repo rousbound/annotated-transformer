@@ -795,9 +795,9 @@ def yield_tokens(data_iter, tokenizer, language):
 
 
 
+    global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 def build_vocabulary(spacy_de, spacy_en):
-    global vocab_src, vocab_tgt, spacy_de, spacy_en
 
     def tokenize_de(text):
         return tokenize(text, spacy_de)

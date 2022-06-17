@@ -1406,10 +1406,10 @@ all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+t
 
 print("All dataset:", len(all_dataset))
 
-# if is_interactive_notebook():
-    # # global variables used later in the script
-    # spacy_de, spacy_en = show_example(load_tokenizers)
-    # vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
+if is_interactive_notebook():
+    # global variables used later in the script
+    spacy_de, spacy_en = show_example(load_tokenizers)
+    vocab_src, vocab_tgt = show_example(load_vocab, args=[spacy_de, spacy_en])
 
 if is_interactive_notebook():
     model = load_trained_model()

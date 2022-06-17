@@ -28,6 +28,7 @@ from datasets import load_dataset, concatenate_datasets
 warnings.filterwarnings("ignore")
 RUN_EXAMPLES = True
 
+global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 # Some convenience helper functions used throughout the notebook
 
@@ -795,7 +796,6 @@ def yield_tokens(data_iter, tokenizer, language):
 
 
 
-    global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 def build_vocabulary(spacy_de, spacy_en):
 

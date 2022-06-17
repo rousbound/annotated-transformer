@@ -809,14 +809,14 @@ def build_vocabulary(spacy_de, spacy_en):
     print("Building German Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_de, language='de'),
-        min_freq=1,
+        min_freq=0,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
 
     print("Building English Vocabulary ...")
     vocab_tgt = build_vocab_from_iterator(
         yield_tokens(all_dataset, tokenize_en, language='en'),
-        min_freq=1,
+        min_freq=0,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
     print("len vocab src:", len(vocab_src))

@@ -468,6 +468,7 @@ def run_epoch(
     total_loss = 0
     tokens = 0
     n_accum = 0
+    len_generator = len(list(data_iter))
     for i, batch in enumerate(data_iter):
         out = model.forward(
             batch.src, batch.tgt, batch.src_mask, batch.tgt_mask
@@ -497,7 +498,7 @@ def run_epoch(
                     "Epoch Step: %6d/%d | Accumulation Step: %3d | Loss: %6.2f "
                     + "| Tokens / Sec: %7.1f | Learning Rate: %6.1e"
                 )
-                % (i, len(data_iter), n_accum, loss / batch.ntokens, tokens / elapsed, lr)
+                % (i, len_generator , n_accum, loss / batch.ntokens, tokens / elapsed, lr)
             )
             start = time.time()
             tokens = 0

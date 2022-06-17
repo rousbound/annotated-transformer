@@ -21,11 +21,15 @@ from torchtext.data.functional import to_map_style_dataset
 
 # print(train)
 train, val, test = load_dataset("wmt16", "de-en",split=["train[:1%]","validation[:1%]","test[:1%]"])
+
 all_ds2 = load_dataset("wmt16", "de-en",split="train[:1%]+validation[:1%]+test[:1%]")
 
-all_ds = concatenate_datasets([train, val, test])
-print(all_ds)
-print(all_ds2)
+all_ds2.save_to_disk("trainvaltest.csv")
+# dataset_dict.save_to_disk("../data/wikipedia_rank_nocache")
+
+# all_ds = concatenate_datasets([train, val, test])
+# print(all_ds)
+# print(all_ds2)
 # for el in train:
     # print(el['translation'])
 

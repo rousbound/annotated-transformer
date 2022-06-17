@@ -498,7 +498,7 @@ def run_epoch(
                     "Epoch Step: %6d/%d | Accumulation Step: %3d | Loss: %6.2f "
                     + "| Tokens / Sec: %7.1f | Learning Rate: %6.1e"
                 )
-                % (i, len_generator , n_accum, loss / batch.ntokens, tokens / elapsed, lr)
+                % (i, len_valid_dataloader , n_accum, loss / batch.ntokens, tokens / elapsed, lr)
             )
             start = time.time()
             tokens = 0

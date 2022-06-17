@@ -1390,6 +1390,10 @@ def viz_decoder_src():
     )
 
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
+print("Len train:", train)
+print("Len val:", val)
+print("Len test:", test)
+
 all_dataset = load_dataset("wmt16", "de-en",split=f"train[:1%]+validation[:1%]+test[:1%]")
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")

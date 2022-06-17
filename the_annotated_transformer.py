@@ -1397,12 +1397,12 @@ def viz_decoder_src():
         & layer_viz[5]
     )
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:30%]","validation[:30%]","test[:30%]"])
+train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
 print("Len train:", len(train))
 print("Len val:", len(val))
 print("Len test:", len(test))
 
-all_dataset = load_dataset("wmt16", "de-en",split=f"train[:30%]+validation[:30%]+test[:30%]")
+all_dataset = load_dataset("wmt16", "de-en",split=f"train[:10%]+validation[:10%]+test[:10%]")
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")
 

@@ -30,6 +30,7 @@ RUN_EXAMPLES = True
 
 
 # Some convenience helper functions used throughout the notebook
+global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 
 def is_interactive_notebook():
@@ -1189,7 +1190,6 @@ def check_outputs(
 
 
 def run_model_example(n_examples=5):
-    global vocab_src, vocab_tgt, spacy_de, spacy_en
 
     print("Preparing Data ...")
     _, valid_dataloader = create_dataloaders(

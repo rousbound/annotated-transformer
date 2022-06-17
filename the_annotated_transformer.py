@@ -461,6 +461,7 @@ def run_epoch(
     mode="train",
     accum_iter=1,
     train_state=TrainState(),
+    len_valid_dataloader=None,
 ):
     """Train a single epoch"""
     start = time.time()
@@ -468,7 +469,6 @@ def run_epoch(
     total_loss = 0
     tokens = 0
     n_accum = 0
-    len_generator = len(list(data_iter))
     for i, batch in enumerate(data_iter):
         out = model.forward(
             batch.src, batch.tgt, batch.src_mask, batch.tgt_mask
@@ -1078,6 +1078,7 @@ def train_worker(
             DummyOptimizer(),
             DummyScheduler(),
             mode="eval",
+            len_valid_dataloader = len(valid_dataloader)
         )
         print(sloss)
         torch.cuda.empty_cache()

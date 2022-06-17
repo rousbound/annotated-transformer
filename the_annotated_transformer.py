@@ -818,8 +818,8 @@ def build_vocabulary(spacy_de, spacy_en):
         min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
-    print("len vocab src:", vocab_src)
-    print("len vocab tgt:", vocab_tgt)
+    print("len vocab src:", len(vocab_src))
+    print("len vocab tgt:", len(vocab_tgt))
 
     vocab_src.set_default_index(vocab_src["<unk>"])
     vocab_tgt.set_default_index(vocab_tgt["<unk>"])

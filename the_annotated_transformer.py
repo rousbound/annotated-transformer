@@ -28,7 +28,6 @@ from datasets import load_dataset, concatenate_datasets
 warnings.filterwarnings("ignore")
 RUN_EXAMPLES = True
 
-global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 # Some convenience helper functions used throughout the notebook
 
@@ -1393,6 +1392,7 @@ def viz_decoder_src():
         & layer_viz[4]
         & layer_viz[5]
     )
+global vocab_src, vocab_tgt, spacy_de, spacy_en
 
 train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:1%]","validation[:1%]","test[:1%]"])
 print("Len train:", len(train))

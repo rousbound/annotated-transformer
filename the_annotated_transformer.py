@@ -461,7 +461,6 @@ def run_epoch(
     mode="train",
     accum_iter=1,
     train_state=TrainState(),
-    len_valid_dataloader=None,
 ):
     """Train a single epoch"""
     start = time.time()
@@ -495,10 +494,10 @@ def run_epoch(
             elapsed = time.time() - start
             print(
                 (
-                    "Epoch Step: %6d/%d | Accumulation Step: %3d | Loss: %6.2f "
+                    "Epoch Step: %6d | Accumulation Step: %3d | Loss: %6.2f "
                     + "| Tokens / Sec: %7.1f | Learning Rate: %6.1e"
                 )
-                % (i, len_valid_dataloader , n_accum, loss / batch.ntokens, tokens / elapsed, lr)
+                % (i, n_accum, loss / batch.ntokens, tokens / elapsed, lr)
             )
             start = time.time()
             tokens = 0
@@ -1078,7 +1077,6 @@ def train_worker(
             DummyOptimizer(),
             DummyScheduler(),
             mode="eval",
-            len_valid_dataloader = len(valid_dataloader)
         )
         print(sloss)
         torch.cuda.empty_cache()

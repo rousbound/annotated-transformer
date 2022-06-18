@@ -957,8 +957,8 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
-            if self.data[idx]['pt'] != None and self.data[idx]['en'] != None:
-                return self.data[idx]['pt'], self.data[idx]['en']
+            # if self.data[idx]['pt'] != None and self.data[idx]['en'] != None:
+            return self.data[idx]['pt'], self.data[idx]['en']
 
 
     # train_iter_map = to_map_style_dataset(train_iter)  
@@ -1128,7 +1128,7 @@ def load_trained_model():
     config = { #CONFIG
         "batch_size": 32, #32
         "distributed": False,
-        "num_epochs": 8, #8
+        "num_epochs": 50, #8
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,

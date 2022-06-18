@@ -1128,7 +1128,7 @@ def load_trained_model():
     config = { #CONFIG
         "batch_size": 32, #32
         "distributed": False,
-        "num_epochs": 50, #8
+        "num_epochs": 20, #8
         "accum_iter": 10,
         "base_lr": 1.0,
         "max_padding": 72,

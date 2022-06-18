@@ -957,7 +957,8 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
-            return self.data[idx]['pt'], self.data[idx]['en']
+            if self.data[idx]['pt'] != None and self.data[idx]['en'] != None:
+                return self.data[idx]['pt'], self.data[idx]['en']
 
 
     # train_iter_map = to_map_style_dataset(train_iter)  

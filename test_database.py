@@ -6,14 +6,14 @@ from torchtext.data.functional import to_map_style_dataset
 # print(train)
 # print(train.features)
 
-# class customdataset(Dataset):
-    # def __init__(self,data):
-        # self.data = data
-    # def __len__(self):
-        # return len(self.data)
+class customdataset(Dataset):
+    def __init__(self,data):
+        self.data = data
+    def __len__(self):
+        return len(self.data)
         
-    # def __getitem__(self, idx):
-        # return self.data[idx]['translation']['en'], self.data[idx]['translation']['de']
+    def __getitem__(self, idx):
+        return self.data[idx]['en'], self.data[idx]['pt']
 
 # # for el in customdataset(train):
     # # print(el)
@@ -50,15 +50,14 @@ print(train, val, test)
 # train2 = train.map(preprocess_function, batched=True) 
 # print(train2.features['tuples'])
 
-# # train = customdataset(to_map_style_dataset(train))
+# train = customdataset(to_map_style_dataset(train))
 
 # def preprocess(dataset):
     # for el in self.data[0]['translation']:
         # return el['en'], el['de']
 
-# train_dataloader = DataLoader(
-    # train.map(preprocess),
-    # batch_size=32,
-# )
-# for el in train_dataloader:
-    # print(el)
+train_dataloader = DataLoader(
+        customdataset(train)
+)
+for el in train_dataloader:
+    print(type(el[0]))

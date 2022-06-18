@@ -1404,6 +1404,42 @@ def viz_decoder_src():
         & layer_viz[5]
     )
 
+def input_prompt():
+    sentence = input("Input sentence for translation:" )
+    model = make_model(len(vocab_src), len(vocab_tgt), N=6)
+    model.load_state_dict(
+        torch.load("multi30k_model_final.pt", map_location=torch.device("cpu"))
+    )
+    rb = Batch(sentence, None, pad_idx)
+    greedy_decode(model, rb.src, rb.src_mask, 64, 0)[0]
+
+    print("RB SRC:", rb.src)
+    print("RB SRC type:", type(rb.src))
+    src_tokens = [
+        vocab_src.get_itos()[x] for x in rb.src[0] if x != pad_idx
+    ]
+    tgt_tokens = [
+        vocab_tgt.get_itos()[x] for x in rb.tgt[0] if x != pad_idx
+    ]
+
+    print(
+        "Source Text (Input)        : "
+        + " ".join(src_tokens).replace("\n", "")
+    )
+    # print(
+        # "Target Text (Ground Truth) : "
+        # + " ".join(tgt_tokens).replace("\n", "")
+    # )
+    model_out = greedy_decode(model, rb.src, rb.src_mask, 72, 0)[0]
+    model_txt = (
+        " ".join(
+            [vocab_tgt.get_itos()[x] for x in model_out if x != pad_idx]
+        ).split(eos_string, 1)[0]
+        + eos_string
+    )
+    print("Model Output               : " + model_txt.replace("\n", ""))
+
+
 train, val, test = load_dataset("csv", data_files=["data/out.csv"], split=['train[:95%]','train[95%:97%]','train[97%:]'])
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
 

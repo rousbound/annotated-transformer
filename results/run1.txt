@@ -1,0 +1,103 @@
+Example 0 ========
+
+RB SRC: tensor([[    0,    49,  3075,    26,  2681, 48099,     5,     1,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2]])
+RB SRC type: <class 'torch.Tensor'>
+Source Text (Input)        : <s> Wir rechnen mit erheblichen Ausfällen . </s>
+Target Text (Ground Truth) : <s> We are expecting there to be a significant amount of cancellations . </s>
+Model Output               : <s> We are counting on huge losses . </s>
+
+Example 1 ========
+
+RB SRC: tensor([[     0,  72705,   2737,  18110, 117531,      1,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2]])
+RB SRC type: <class 'torch.Tensor'>
+Source Text (Input)        : <s> Gartenzentren bedauern sinkende Hausbesitzerzahlen </s>
+Target Text (Ground Truth) : <s> Garden centres rue fall in homeowners </s>
+Model Output               : <s> The toxic excuse for falling milk techniques </s>
+
+Example 2 ========
+
+RB SRC: tensor([[     0,   7824,  52220,    683, 118757,      9,  77279,      8,  78129,
+           8696,      1,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2,      2,      2,      2,      2,      2,      2,      2,
+              2,      2]])
+RB SRC type: <class 'torch.Tensor'>
+Source Text (Input)        : <s> George Webster wegen Hotelvergewaltigungen in Naim und Pitlochry angeklagt </s>
+Target Text (Ground Truth) : <s> George Webster accused of Nairn and Pitlochry hotel rapes </s>
+Model Output               : <s> George W. Bush is accused of the number of net contributors in the field of be part of the electricity and of the Malta - Germans . </s>
+
+Example 3 ========
+
+RB SRC: tensor([[    0,  5729,  1610,    66,     9,    11,   290, 52381, 13670,    22,
+             5,     1,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2]])
+RB SRC type: <class 'torch.Tensor'>
+Source Text (Input)        : <s> 96 Flüchtlinge können in den drei Zelten untergebracht werden . </s>
+Target Text (Ground Truth) : <s> 96 refugees can be accommodated in the three tents . </s>
+Model Output               : <s> In the three base areas , 96 could be put on the table . </s>
+
+Example 4 ========
+
+RB SRC: tensor([[    0,   101,  3494,  3928,   413,     4,    15,     6,  8380,     8,
+           102,  3416,    54,     7,   475,   103,   180,  3184,    21,   257,
+         46124,     4,  4969,    46,    21,  1086,     4,     6,  6888,  7075,
+             4,    15,    96,     6,   301,     7,  8380,    20,  6474,     8,
+          2794, 28455,     8,  1975,  2558,    33,     5,    96,     1,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+             2,     2,     2,     2,     2,     2,     2,     2]])
+RB SRC type: <class 'torch.Tensor'>
+Source Text (Input)        : <s> In vollem Bewusstsein dessen , dass die Arbeiter und ihre Gewerkschaften bei der Schaffung eines neuen Japan eine Rolle einnahmen , verwendeten sie eine Sprache , die explizit anerkannte , dass " die Rechte der Arbeiter auf Vereinigung und gemeinsames Verhandeln und Handeln garantiert sind . " </s>
+Target Text (Ground Truth) : <s> Fully aware that workers and their unions had a role to play in shaping the new Japan , they included language that explicitly recognized that " the right of workers to organize and to bargain and act collectively is guaranteed . " </s>
+Model Output               : <s> In full knowledge of the role of workers and their unions in setting up a new Japan , they used a language which explicitly recognised that ' the rights of workers in association and negotiation and joint negotiation are guaranteed ' . </s>

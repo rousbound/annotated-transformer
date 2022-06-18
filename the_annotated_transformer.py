@@ -82,6 +82,7 @@ class EncoderDecoder(nn.Module):
         return self.decode(self.encode(src, src_mask), src_mask, tgt, tgt_mask)
 
     def encode(self, src, src_mask):
+        # Returns K x V'
         return self.encoder(self.src_embed(src), src_mask)
 
     def decode(self, memory, src_mask, tgt, tgt_mask):
@@ -770,10 +771,10 @@ def example_simple_model():
 def load_tokenizers():
 
     try:
-        spacy_de = spacy.load("de_core_news_sm")
+        spacy_de = spacy.load("pt_core_news_sm")
     except IOError:
-        os.system("python3 -m spacy download de_core_news_sm")
-        spacy_de = spacy.load("de_core_news_sm")
+        os.system("python3 -m spacy download pt_core_news_sm")
+        spacy_de = spacy.load("pt_core_news_sm")
 
     try:
         spacy_en = spacy.load("en_core_web_sm")
@@ -791,7 +792,8 @@ def tokenize(text, tokenizer):
 def yield_tokens(data_iter, tokenizer, language):
     for el in data_iter:
         # print(el['translation'][language])
-        yield tokenizer(el['translation'][language])
+        if el[language]:
+            yield tokenizer(el[language])
 
 
 
@@ -799,16 +801,16 @@ def yield_tokens(data_iter, tokenizer, language):
 def build_vocabulary(spacy_de, spacy_en):
 
 
-    def tokenize_de(text):
+    def tokenize_pt(text):
         return tokenize(text, spacy_de)
 
     def tokenize_en(text):
         return tokenize(text, spacy_en)
 
 
-    print("Building German Vocabulary ...")
+    print("Building Portuguese Vocabulary ...")
     vocab_src = build_vocab_from_iterator(
-        yield_tokens(all_dataset, tokenize_de, language='de'),
+        yield_tokens(all_dataset, tokenize_pt, language='pt'),
         min_freq=1,
         specials=["<s>", "</s>", "<blank>", "<unk>"],
     )
@@ -885,8 +887,8 @@ def collate_batch(
             pad(
                 processed_src,
                 (
-                    0,
-                    max_padding - len(processed_src),
+                    0, # Padding Left
+                    max_padding - len(processed_src), # Padding Right
                 ),
                 value=pad_id,
             )
@@ -894,12 +896,16 @@ def collate_batch(
         tgt_list.append(
             pad(
                 processed_tgt,
-                (0, max_padding - len(processed_tgt)),
+                (
+                    0, # Padding Left
+                    max_padding - len(processed_tgt) # Padding Right
+                ),
                 value=pad_id,
             )
         )
 
-    src = torch.stack(src_list)
+    # Concatenates sequence of tensors along a new dimension
+    src = torch.stack(src_list) 
     tgt = torch.stack(tgt_list)
     return (src, tgt)
 
@@ -916,7 +922,7 @@ def create_dataloaders(
     is_distributed=True,
 ):
     # def create_dataloaders(batch_size=12000):
-    def tokenize_de(text):
+    def tokenize_pt(text):
         return tokenize(text, spacy_de)
 
     def tokenize_en(text):
@@ -927,7 +933,7 @@ def create_dataloaders(
         # print("TYPE:", type(batch))
         return collate_batch(
             batch,
-            tokenize_de,
+            tokenize_pt,
             tokenize_en,
             vocab_src,
             vocab_tgt,
@@ -951,7 +957,7 @@ def create_dataloaders(
             return len(self.data)
             
         def __getitem__(self, idx):
-            return self.data[idx]['translation']['de'], self.data[idx]['translation']['en']
+            return self.data[idx]['pt'], self.data[idx]['en']
 
 
     # train_iter_map = to_map_style_dataset(train_iter)  
@@ -1397,12 +1403,12 @@ def viz_decoder_src():
         & layer_viz[5]
     )
 
-train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
-print("Len train:", len(train))
-print("Len val:", len(val))
-print("Len test:", len(test))
+train, val, test = load_dataset("csv", data_files=["data/out.csv"], split=['train[:95%]','train[95%:97%]','train[97%:]'])
+# train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:10%]","validation[:10%]","test[:10%]"])
 
-all_dataset = load_dataset("wmt16", "de-en",split=f"train[:10%]+validation[:10%]+test[:10%]")
+all_dataset = load_dataset("csv", data_files=["data/out.csv"])
+all_dataset = all_dataset['train']
+# all_dataset = load_dataset("wmt16", "de-en",split=f"train[:10%]+validation[:10%]+test[:10%]")
 # train, val, test = load_dataset("wmt16", "de-en",split=[f"train[:50%]","validation[:50%]","test[:50%]"])
 # all_dataset = load_dataset("wmt16", "de-en",split=f"train[:50%]+validation[:50%]+test[:50%]")
 
